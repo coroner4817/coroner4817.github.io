@@ -1,1 +1,34 @@
-theme: jekyll-theme-slate
+# Welcome to Jekyll!
+
+plugins:
+  - jekyll-feed
+  - jekyll-include-cache
+# theme config
+remote_theme: hydecorp/hydejack@v9.0.4
+
+lang:                  en
+title: Yingnan Wang
+description: >- # this means to ignore newlines until "baseurl:"
+  This website record progress of my side projects
+
+tagline:               Some Random Thoughts
+
+keywords:              [Coding]
+
+accent_image: /assets/img/sidebar_bg.jpg
+accent_color: rgb(79,177,186)
+
+menu:
+  - title: Blog
+    url:   /blog/
+  - title: Projects
+    url:   /projects/
+  - title: About
+    url:   /about/
+
+author:
+  social:
+    github:  coroner4817
+
+permalink:             /blog/:categories/:year-:month-:day-:title/
+
