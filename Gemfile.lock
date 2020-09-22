@@ -1,3 +1,24 @@
+GIT
+  remote: https://github.com/benbalter/jekyll-default-layout
+  revision: 11054b8af659382223d9afe0a26f1627869a6abb
+  specs:
+    jekyll-default-layout (0.1.4)
+      jekyll (>= 3.0, < 5.0)
+
+GIT
+  remote: https://github.com/hydecorp/jekyll-include-cache
+  revision: 2168263a7c88101f92557e6fe015a276267d8274
+  specs:
+    jekyll-include-cache (0.2.0)
+      jekyll (>= 3.7, < 5.0)
+
+GIT
+  remote: https://github.com/hydecorp/jekyll-seo-tag
+  revision: 6135021410981d2d76878568e9c21cf363882bfe
+  specs:
+    jekyll-seo-tag (2.6.1)
+      jekyll (>= 3.3, < 5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -112,8 +133,8 @@ GEM
       commonmarker (~> 0.17.6)
       jekyll-commonmark (~> 1.2)
       rouge (>= 2.0, < 4.0)
-    jekyll-default-layout (0.1.4)
-      jekyll (~> 3.0)
+    jekyll-compose (0.12.0)
+      jekyll (>= 3.7, < 5.0)
     jekyll-feed (0.13.0)
       jekyll (>= 3.7, < 5.0)
     jekyll-gist (1.5.0)
@@ -121,8 +142,9 @@ GEM
     jekyll-github-metadata (2.13.0)
       jekyll (>= 3.4, < 5.0)
       octokit (~> 4.0, != 4.4.0)
-    jekyll-include-cache (0.2.0)
+    jekyll-last-modified-at (1.3.0)
       jekyll (>= 3.7, < 5.0)
+      posix-spawn (~> 0.3.9)
     jekyll-mentions (1.5.1)
       html-pipeline (~> 2.3)
       jekyll (>= 3.7, < 5.0)
@@ -141,8 +163,6 @@ GEM
       rubyzip (>= 1.3.0)
     jekyll-sass-converter (1.5.2)
       sass (~> 3.4)
-    jekyll-seo-tag (2.6.1)
-      jekyll (>= 3.3, < 5.0)
     jekyll-sitemap (1.4.0)
       jekyll (>= 3.7, < 5.0)
     jekyll-swiss (1.0.0)
@@ -194,13 +214,8 @@ GEM
       gemoji (~> 3.0)
       html-pipeline (~> 2.2)
       jekyll (>= 3.0, < 5.0)
-    katex (0.6.0)
-      execjs (~> 2.7)
     kramdown (2.3.0)
       rexml
-    kramdown-math-katex (1.0.1)
-      katex (~> 0.4)
-      kramdown (~> 2.0)
     kramdown-parser-gfm (1.1.0)
       kramdown (~> 2.0)
     liquid (4.0.3)
@@ -222,6 +237,7 @@ GEM
       sawyer (~> 0.8.0, >= 0.5.3)
     pathutil (0.16.2)
       forwardable-extended (~> 2.6)
+    posix-spawn (0.3.15)
     public_suffix (3.1.1)
     rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
@@ -260,8 +276,19 @@ PLATFORMS
 
 DEPENDENCIES
   github-pages
-  jekyll-include-cache
-  kramdown-math-katex
+  jekyll-compose
+  jekyll-default-layout!
+  jekyll-feed
+  jekyll-include-cache!
+  jekyll-last-modified-at
+  jekyll-optional-front-matter
+  jekyll-paginate
+  jekyll-readme-index
+  jekyll-redirect-from
+  jekyll-relative-links
+  jekyll-seo-tag!
+  jekyll-sitemap
+  jekyll-titles-from-headings
 
 BUNDLED WITH
    2.1.4
