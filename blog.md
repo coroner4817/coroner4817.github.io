@@ -1,10 +1,13 @@
 ---
-layout: blog
+layout: list
 title: Blog
 description: >
-  Welcome to my blog!
+  [Blog image view](/) | 
 no_link_title: false
 no_excerpt: false
 hide_image: false
 cover: true
 ---
+
+[Deep Learning](/deeplearning)
+{:.note title="Article Tags"}
