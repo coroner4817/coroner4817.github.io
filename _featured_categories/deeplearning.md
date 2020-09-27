@@ -1,6 +1,6 @@
 ---
 # Featured tags need to have either the `list` or `grid` layout (PRO only).
-layout: list
+layout: listSlug
 
 # The title of the tag's page.
 title: Deep Learning

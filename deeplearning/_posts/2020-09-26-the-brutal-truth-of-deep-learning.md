@@ -2,6 +2,7 @@
 layout: post
 title: The brutal truth of Deep Learning
 date: 2020-09-26 04:02 -0400
+categories: [deeplearning]
 description: >
   Is Deep Learning the right path to ultimate AI? 
 image:
