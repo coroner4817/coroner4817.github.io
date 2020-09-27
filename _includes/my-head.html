@@ -1,0 +1,36 @@
+<style type="text/css">
+.floating_button {
+  background-color: #BB86FC;
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  right: 12px;
+  bottom: 30px;
+  border-radius: 100%;
+  background: #018786;
+  border: none;
+  outline: none;
+  color: #FFF;
+  font-size: 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  title: Dark Mode;
+}
+</style>
+
+<button id="darkmode_button" class="floating_button">ø</button>
+
+<script>
+  var myButton = document.getElementById("darkmode_button");
+  myButton.style.display = '';
+  myButton.title = "Toggle Dark Mode";
+
+  myButton.onclick = function() {
+    var url = new URL(window.location.href);
+    var usedarkmode = url.searchParams.get("darkmode");
+    if(usedarkmode == "1") {
+      window.location = window.location.href.replace("?darkmode=1", "");
+    } else {
+      window.location = window.location.href + "?darkmode=1";
+    }
+  };
+</script>

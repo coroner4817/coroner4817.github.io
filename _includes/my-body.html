@@ -9,5 +9,60 @@ var getFavicon = function(){
             nodeList[i].setAttribute("href", "/assets/img/framework/favicon-96x96.png");
         }
     }
-}()
+}();
+
+var socialIcon = function(){
+  var sidebar_tags = document.getElementById("_drawer").getElementsByTagName("*");
+  for(var i = 0; i < sidebar_tags.length; i++) {
+    if(sidebar_tags[i].className == "icon-github") {
+      sidebar_tags[i].style.color = '#000000';
+    } else if (sidebar_tags[i].className == "icon-linkedin2") {
+      sidebar_tags[i].style.color = '#0072b1';
+    } else if (sidebar_tags[i].className == "icon-youtube") {
+      sidebar_tags[i].style.color = '#c4302b';
+    }
+  }
+}();
+
+var darkMode = function(){
+  var all_tags = document.getElementsByTagName("*");
+  var sidebar_tags = document.getElementById("_drawer").getElementsByTagName("*");
+
+  var i = all_tags.length;
+  while ( i-- ) {
+    var notDark = false;
+    for(var j = 0; j < sidebar_tags.length; j++) {
+      if(sidebar_tags[j].isSameNode(all_tags[i])) {
+        notDark = true;
+        break;
+      }
+    }
+    if(notDark) {
+      if(all_tags[i].className == "icon-github") {
+        all_tags[i].style.color = '#000000';
+      } else if (all_tags[i].className == "icon-linkedin2") {
+        all_tags[i].style.color = '#0072b1';
+      } else if (all_tags[i].className == "icon-youtube") {
+        all_tags[i].style.color = '#c4302b';
+      } else {
+        all_tags[i].style.color = '#B1B1B1';
+      }
+      continue;
+    }
+    if(all_tags[i].className != "floating_button") {
+      all_tags[i].style.backgroundColor = '#121212';
+      all_tags[i].style.color = '#B1B1B1';
+    }
+  }
+};
+
+var url = new URL(window.location.href);
+var usedarkmode = url.searchParams.get("darkmode");
+if(usedarkmode == "1") {
+  darkMode();
+}
+
+//TODO: darkmode has bugs
+//      darkmode first load not all text color is updated
+
 </script>
