@@ -13,11 +13,11 @@
   color: #FFF;
   font-size: 20px;
   box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
-  title: Dark Mode;
+  z-index: 999;
 }
 </style>
 
-<button id="darkmode_button" class="floating_button">ø</button>
+<button id="darkmode_button" class="floating_button"><img id="darkmode_button_icon" src="/assets/img/framework/light-bulb.svg" height="20" /></button>
 
 <script>
   var myButton = document.getElementById("darkmode_button");
@@ -25,8 +25,11 @@
   myButton.title = "Toggle Dark Mode";
 
   myButton.onclick = function() {
-    var url = new URL(window.location.href);
-    var usedarkmode = url.searchParams.get("darkmode");
+    if(document.getElementsByName('darkmode_meta').length == 0) {
+      window.location = window.location.href + "?darkmode=1";
+      return;
+    }
+    var usedarkmode = document.getElementsByName('darkmode_meta')[0].getAttribute('content');
     if(usedarkmode == "1") {
       window.location = window.location.href.replace("?darkmode=1", "");
     } else {

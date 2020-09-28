@@ -1,5 +1,5 @@
 <script type="text/javascript">
-var getFavicon = function(){
+function updateFavicon() {
     var favicon = undefined;
     var nodeList = document.getElementsByTagName("link");
     for (var i = 0; i < nodeList.length; i++)
@@ -9,9 +9,9 @@ var getFavicon = function(){
             nodeList[i].setAttribute("href", "/assets/img/framework/favicon-96x96.png");
         }
     }
-}();
+}
 
-var socialIcon = function(){
+function socialIcon() {
   var sidebar_tags = document.getElementById("_drawer").getElementsByTagName("*");
   for(var i = 0; i < sidebar_tags.length; i++) {
     if(sidebar_tags[i].className == "icon-github") {
@@ -22,9 +22,9 @@ var socialIcon = function(){
       sidebar_tags[i].style.color = '#c4302b';
     }
   }
-}();
+}
 
-var darkMode = function(){
+function darkMode() {
   var all_tags = document.getElementsByTagName("*");
   var sidebar_tags = document.getElementById("_drawer").getElementsByTagName("*");
 
@@ -49,20 +49,36 @@ var darkMode = function(){
       }
       continue;
     }
-    if(all_tags[i].className != "floating_button") {
+    if(all_tags[i].id != "darkmode_button" && all_tags[i].id != "darkmode_button_icon") {
       all_tags[i].style.backgroundColor = '#121212';
       all_tags[i].style.color = '#B1B1B1';
     }
   }
-};
+
+  var meta = document.createElement('meta');
+  meta.setAttribute('name', 'darkmode_meta');
+  meta.content = "1";
+  document.getElementsByTagName('head')[0].appendChild(meta);
+}
+
+updateFavicon();
+socialIcon();
 
 var url = new URL(window.location.href);
-var usedarkmode = url.searchParams.get("darkmode");
-if(usedarkmode == "1") {
+var usedarkmode1 = url.searchParams.get("darkmode");
+var usedarkmode2 = "0";
+if(document.getElementsByName('darkmode_meta').length != 0) {
+  usedarkmode2 = document.getElementsByName('darkmode_meta')[0].getAttribute('content');
+}
+if(usedarkmode1 == "1" || usedarkmode2 == "1") {
   darkMode();
 }
 
-//TODO: darkmode has bugs
-//      darkmode first load not all text color is updated
+// TODO: darkmode bugs:
+// - on darkmode, if go a new link and refresh, then we lose all the darkmode context
+// - sometimes not all text get darkmode updated, this is because the function in this script
+//   is not run again when click on a new jekyll link
+
+// javascript is garabage
 
 </script>
