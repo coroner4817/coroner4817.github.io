@@ -3,14 +3,14 @@
 layout: listSlug
 
 # The title of the tag's page.
-title: C++
+title: Coding
 
 # The name of the tag, used in a post's front matter (e.g. tags: [<slug>]).
 slug: coding
 
 # (Optional) Write a short (~150 characters) description of this featured tag.
 description: >
-  Random Thoughts of C++
+  Random Thoughts of Coding
 
 # (Optional) You can disable grouping posts by date.
 no_groups: true
