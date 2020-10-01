@@ -7,6 +7,7 @@ description: >
   Some C++ tricks and syntactic sugars
 image:
   path: "/assets/img/blog/cpp.jpg"
+related_posts: []
 ---
 
 Recording some coding snippets I have learned.  

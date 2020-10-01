@@ -6,6 +6,7 @@ description: >
   Some code snippets for bash programming
 image:
   path: "/assets/img/framework/sidebar_bg.jpg"
+related_posts: []
 ---
 
 Writing Bash script to do automation task can really boost the productivity
