@@ -11,5 +11,5 @@ hide_description: true
 [Blog Expanded View](/)
 {:.note title="Layout"}
 
-[Deep Learning](/deeplearning), [Coding](/coding)
+[Deep Learning](/deeplearning), [Coding](/coding), [Misc](/misc)
 {:.note title="Article Tags"}

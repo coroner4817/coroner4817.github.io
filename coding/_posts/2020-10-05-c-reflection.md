@@ -15,6 +15,9 @@ I have once needed to implement a C++ real-time data-binding synchronization fra
 
 Although eventually, I didn’t choose reflection as the final solution for the sake of the risk and performance in the production code, the learning experience did inspire me a lot. And I am more comfortable with C++ type support features. 
 
+* toc
+{:toc .large-only}
+
 ### C++ Marco Basic
 Before we heads to the reflection, let’s review the some basic of C++ Macros:
 
@@ -442,5 +445,5 @@ So when calling `reflect::TypeResolver<Primitive_Type>::get()`, there is no `Pri
 ### Things still can be done
 So eventually after the traversal, we can obtain the node tree object from the input string. But we have made several assumptions here like the `indent` represents the node depth. So a future improvement can be using json format for serialization, which use has no extra meta info and use brackets to indicates depth.
 
-### Conclusion
+### Demo Code
 The final demo code can be found at [GitHub - coroner4817/FlexibleReflection at deserialization](https://github.com/coroner4817/FlexibleReflection/tree/deserialization)
