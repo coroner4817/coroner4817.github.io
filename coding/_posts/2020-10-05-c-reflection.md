@@ -443,7 +443,7 @@ So when calling `reflect::TypeResolver<Primitive_Type>::get()`, there is no `Pri
 
 
 ### Things still can be done
-So eventually after the traversal, we can obtain the node tree object from the input string. But we have made several assumptions here like the `indent` represents the node depth. So a future improvement can be using json format for serialization, which use has no extra meta info and use brackets to indicates depth.
+So eventually after the traversal, we can obtain the node tree object from the input string. But we have made several assumptions here like the `indent` represents the node depth. So a future improvement can be using JSON format for serialization, which use has no extra meta info and use brackets to indicates depth.
 
 ### Demo Code
 The final demo code can be found at [GitHub - coroner4817/FlexibleReflection at deserialization](https://github.com/coroner4817/FlexibleReflection/tree/deserialization)
