@@ -9,7 +9,7 @@ image:
 related_posts: []
 ---
 
-Life without powerful DSP tools like MATLAB can be very tough, especially for those engineers who need to process real-world data in the production env. Digital filtering on continuous data is a very common use case in a lot of User Interface rendering. Among all the digital signal processing techniques, the low-pass filter is the most fundamental one and can smooth out noise or unwanted bump in the data sequence. This article will discuss designing a C++  Low-pass filter from scratch.  
+Life without powerful DSP tools like MATLAB can be very tough, especially for those engineers who need to process real-world data in the production env. Digital filtering on continuous data is a very common use case in a lot of User Interface rendering. Among all the digital signal processing techniques, the low-pass filter is the most fundamental one and can smooth out noise or unwanted jittering in the data sequence. This article will discuss designing a C++  Low-pass filter from scratch.  
 
 * toc
 {:toc .large-only}
@@ -21,11 +21,11 @@ Filter designing is all about needs. There are so many choices and parameters to
 There are basically 2 types of digital filters: Infinite-Impulse Response filter and Finite-Impulse Response filter. 
 
 | IIR | FIR |
-| Designed base on the feedback loop, not guaranteed to be stable | Designed base on a sliding window. Hard to design but stable |
+| Designed base on the feedback loop, not guaranteed to be stable | Designed base on a sliding window. Hard to design but stable. Image Gaussian Blur can be understand as a 2D FIR filter |
 |IIR is usually faster in response because the feedback loop design|FIR usually worse than the IIR under the same order|
-|IIR design you can read the rest of this article|FIR design you can use the [scipy python package]([scipy.signal.firwin — SciPy v1.5.2 Reference Guide]https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.firwin.html)|
+|IIR design you can read the rest of this article|FIR kernel design you can use the [scipy python package]([scipy.signal.firwin — SciPy v1.5.2 Reference Guide]https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.firwin.html)|
 
-Also, we cannot break the law of Physics. So there must be some delay in the digital filtering in the time domain. The delay is correlated with the order of the filter. If the order is 3, then we are expected to see 3 frames of delay. To obtain the full sequence of the processed data, we need to have some phase compensation for the delay. Also the higher the order, the faster the response damping. 
+Also, we cannot break the law of Physics. So there must be some delay in the digital filtering in the time domain. The delay is correlated with the order of the filter. For example, if the order is 3, then we are expected to see 3 frames of delay. To obtain the full sequence of the processed data, we need to have some phase compensation for the delay at the end. Also the higher the order, the faster the response damping. 
 
 **Reads:** 
 - [Digital filter - Wikipedia](https://en.wikipedia.org/wiki/Digital_filter)
@@ -40,7 +40,7 @@ There are multiple formats of Low-pass Filter. The most common 2 types are Butte
 
 |Butterworth|Chebyshev Type I|
 |![](/assets/img/blog/butterworth.svg)|![](/assets/img/blog/chebyshev.svg)|
-|Slow damping|Faster sampling, but has ripple|
+|Slow damping|Faster damping, but has ripple|
 
 Here we choose Butterworth Low-pass filter. To design a Butterworth we just need the number of the order N and the Cutoff frequency Wc. Or we can use the passband cutoff and stopband cutoff to calculate the N and Wc.
 
@@ -110,7 +110,7 @@ We can resolve the unknown parameters `a` and `b`. Then replace it inside the di
 - [The bilinear z transform - EarLevel Engineering](https://www.earlevel.com/main/2003/03/02/the-bilinear-z-transform/)
 
  
-### C++ example for 3rd order Butterworth Filter
+### C++ code for 3rd-order Butterworth Filter for a float sequence
 
 ```c++
 constexpr float Wc = 0.2f; // cutoff frequency in rad/s
@@ -124,17 +124,24 @@ float b1 = (3*K*K*K + 2*K*K - 2*K - 3) * norm;
 float b2 = (3*K*K*K - 2*K*K - 2*K + 3) * norm;
 float b3 = (K*K*K - 2*K*K + 2*K - 1) * norm;
 
-...
-
-float onReceiveData(float input) {
+// z and p are the delay memory blocks
+bool onReceiveData(float input, float& output) {
   float output = input * a0 + z1;
   z1 = input * a1 + z2 - b1 * output;
   z2 = input * a2 + z3 - b2 * output;
   z3 = input * a3 - b3 * output;
-  
-  ... logic to not really return the output in the first n frame
+  p0 = p1; p1 = p2; p2 = input;
 
-  return output;
+  // Since LPF is not stable on first N frame
+  // 1) we need to bypass input at first N-3 frames
+  // 2) cache input between [N-3, N), no output at all
+  // 3) between [N, N+3), we need to blend the output with the cached inputs with index based weights
+  // 4) for following frames, we can use the LPF normally
+}
+
+std::vector<float> getPhaseCompensation() {
+  // return latest 3 inputs, since they are not processed
+  return {p0, p1, p2};
 }
 ```
 

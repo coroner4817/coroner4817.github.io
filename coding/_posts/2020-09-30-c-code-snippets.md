@@ -90,3 +90,47 @@ class A {
 A a;
 // Then a can used as B
 ```
+
+### Compile time type if condition
+```c++
+// require c++17
+if constexpr (std::is_same<T, std::string>::value) {
+} else {
+}
+```
+
+### template qualifier
+```c++
+template <typename T>
+class Foo {
+protected:
+  template <typename U>
+  void test(){};
+};
+template <typename D>
+class Bar : public Foo<D> {
+public:
+  void test(){
+    Foo<D>::template test<D>();
+  }
+};
+// need to use qualifer template after a ., ->, or :: operator to distinguish member template
+```
+
+### Custom compile time type check
+```c++
+template <typename T> static char func(decltype(&T::Reflectable));
+template <typename T> static int func(...);
+template <typename T>
+struct is_reflectable {
+  enum { value = (sizeof(func<T>(nullptr)) == sizeof(char)) };
+};
+
+class Foo {
+public:
+  static const bool Reflectable = true;
+};
+
+if constexpr (is_reflectable<T>::value) {
+}
+```
