@@ -18,7 +18,7 @@ Although eventually, I didn’t choose reflection as the final solution for the 
 * toc
 {:toc .large-only}
 
-### C++ Marco Basic
+### C++ Macro Basic
 Before we heads to the reflection, let’s review the some basic of C++ Macros:
 
 ```c++
@@ -30,7 +30,7 @@ Before we heads to the reflection, let’s review the some basic of C++ Macros:
 // ## cannot direct concatenate with operator characters, like 5##-1 is invalid
 // if has space around the ##, then the spaces are ignored
 
-// Add comment within a marco 
+// Add comment within a Macro 
 #define FOO(){              \
   /* Hello */ 	    \
 }
@@ -38,7 +38,7 @@ Before we heads to the reflection, let’s review the some basic of C++ Macros:
 // undef
 #undef A
 
-// Pass to next Marco
+// Pass to next Macro
 #define foo(N) \
   std::string passedName = N;
 #define bar() \
@@ -58,11 +58,11 @@ CLASS(Foo, public Bar)
 ```
 
 
-### C++ Marco and template advanced
+### C++ Macro and template advanced
 The above code snippets can already help us do some interesting Meta Programming. However, in some advanced use cases, we may need more than just play with the literal text. We need the type information. Here are some examples:
 
 ```c++
-// lvalue variable assignment in Marco
+// lvalue variable assignment in Macro
 #define COPY(a, b) auto b = a;
 
 // Cannot deduct type
@@ -114,7 +114,7 @@ struct IsReflected {
 ### Recap the Original C++ Reflection post
 Now we have the prerequisite knowledge for this blog, let’s review how the serialization works in the Original post [A Flexible Reflection System in C++: Part 1](https://preshing.com/20180116/a-primitive-reflection-system-in-cpp-part-1/).
 
-The core idea of this implementation of Reflection is the `TypeDescriptor`, which is per type helper class for serialization. No matter the type is a C++ primitive type like int, bool, float. Or the container type like struct, vector, shared_ptr. We will define each TypeDescriptor for all the data types. And each TypeDescriptor will have 1 core API called `TypeDescriptor::dump()`, which can serialize the object itself and the objects under it into a string. There is a fundamental difference between the primitive TypeDescriptor and the container TypeDescriptor: if we view the whole data structure as a node tree, the primitive typed data are the leaf node, while the container typed data are the branch node, whose children nodes are the data it contains. So when serialize a container typed node, we need to recursively serialize all its children nodes. When serializing the whole node tree, we need to do a traversal of the tree from the root node. Here since we need to maintain the depth relationship of the nodes, we are using the Depth-first search to traversal. The logic is inside the `dump` implementation of each container TypeDescriptor. Also for each leaf node primitive data type, we need to implement `dump` to perform the serialization of the specific typed data. So in all, **the original sample code does a recursive traversal on a data node tree with pre-defined TypeDescriptors to serialize each node. The declaration of the static pre-defined TypeDescriptors is using C++ Marcos.**
+The core idea of this implementation of Reflection is the `TypeDescriptor`, which is per type helper class for serialization. No matter the type is a C++ primitive type like int, bool, float. Or the container type like struct, vector, shared_ptr. We will define each TypeDescriptor for all the data types. And each TypeDescriptor will have 1 core API called `TypeDescriptor::dump()`, which can serialize the object itself and the objects under it into a string. There is a fundamental difference between the primitive TypeDescriptor and the container TypeDescriptor: if we view the whole data structure as a node tree, the primitive typed data are the leaf node, while the container typed data are the branch node, whose children nodes are the data it contains. So when serialize a container typed node, we need to recursively serialize all its children nodes. When serializing the whole node tree, we need to do a traversal of the tree from the root node. Here since we need to maintain the depth relationship of the nodes, we are using the Depth-first search to traversal. The logic is inside the `dump` implementation of each container TypeDescriptor. Also for each leaf node primitive data type, we need to implement `dump` to perform the serialization of the specific typed data. So in all, **the original sample code does a recursive traversal on a data node tree with pre-defined TypeDescriptors to serialize each node. The declaration of the static pre-defined TypeDescriptors is using C++ Macros.**
 
 Input:
 ```c++
@@ -396,7 +396,7 @@ By far, we can successfully redirect from the container branch node. However, we
 
 Notice that on the above serialization example, I was using read-able serialization for better understanding. However, when we want to deserialize, we have to serialize the data to the arbitrary bytes array or base64 encoded string. 
 
-Also we have a lot of primitive types to support. So I use Marcos again to auto generate them:
+Also we have a lot of primitive types to support. So I use Macros again to auto generate them:
 ```c++
 #define METAPROGRAMMING(type)\
 struct TypeDescriptor_##type : TypeDescriptor {\

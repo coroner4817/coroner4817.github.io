@@ -24,7 +24,7 @@ I, as a common person in society, don’t feel like the technology aspect of my 
 VR and smartphone AR also has a look-through camera system to simulate the AR experience. But the HW determines both platforms are mainly for some entertainment use cases. VR will trap the user in a certain space and smartphone AR is limited by the camera architecture on the phone. When using the front camera, it is face driven AR content. When using the back camera, it is a portal type experience. In comparison, the AR goggles have much more flexible indoor/outdoor use cases. Needless to say, if we can figure out rendering true black through optics, then AR glasses can potentially become VR goggles. So the ultimate form of the next generation AR platform will be the AR glasses platform for sure.
 
 
-### What is a good Mixed Reality
+### What is good Mixed Reality Interaction
 
 Nowadays, AR glasses companies are advertising their brand under this concept of Mixed Reality. However, besides plane finding, world occlusion, spatial audio, the products are not very aligned with this new term. The virtual content still stays in the virtual space and real-world content stays in the real world. The interaction between these 2 realms is very minimal. The boundary is never truly broken. This is the main reason that I think why customers are forgetting about AR after trying it. It just simply not “wow” them enough. In between the boundary, there are 2 directions of data flowing: virtual control reality and reality fuse into virtual.
 
@@ -34,7 +34,7 @@ Nowadays, AR glasses companies are advertising their brand under this concept of
 
 BTW talking about privacy in content sharing, I encourage you to watch this talk by Marc Pollefeys on how to use Epipolar lines to hide and preserve 3D geometry in the cloud storage scenario: [3DGV Talk: Marc Pollefeys  - 3D geometric vision - YouTube](https://www.youtube.com/watch?v=eS-BMGIVp2o&list=WL&index=7&ab_channel=3DGVSeminar)
 
-### AR Realistic Rendering
+### AR Realistic Rendering (a.k.a. Inverse Rendering)
 
 Another big factor that affects user experience in AR is the rendering quality. To get a truly immersive experience, the device should render the virtual content more realistic, so that the user cannot really tell which is which. In the current generation of AR, the rendered virtual content is very aliasing and plain. It is impossible to achieve the immersive experience in those fancy demo videos. There are some effort been put into this direction, like Physically-based Rendering optimized for the mobile device, Deep Learning based neural rendering, Ray tracing with DLSS. I am very anticipated by Ray Tracing to happen on AR devices. However, to have such high-quality global illumination rendering results, we need to have enough information on the real-world environment. Unlink PBR in gaming, which all content including env is already in virtual, AR rendering requires to fuse the virtual into the real world. So inevitably, we need to do things like light source estimation, obtaining the environment map for IBL, obtaining textured world mesh, using high-quality virtual object materials, using high precision physics simulations, etc. For Ray Tracing we need the light ray to be bouncing correctly between the world mesh and the virtual object mesh. This is an new research area and I have huge interests in this. I will develop myself and put more focus on this direction in the coming decade.
 

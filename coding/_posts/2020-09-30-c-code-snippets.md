@@ -12,7 +12,7 @@ related_posts: []
 
 Recording some coding snippets I have learned.  
 
-### Multiple instancing with Marco
+### Multiple instancing with Macro
 ```c++
 #define INSTANCING_LIST(...) , ##__VA_ARGS__
 #define DECLARE(name, ...) name INSTANCING_LIST(__VA_ARGS__)
