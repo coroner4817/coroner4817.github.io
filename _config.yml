@@ -99,7 +99,7 @@ menu:
 permalink:             /:categories/:year-:month-:day-:title/
 
 # Pagination configuration (used by the `blog` layout)
-paginate:              10
+paginate:              15
 paginate_path:         /:num/
 
 
