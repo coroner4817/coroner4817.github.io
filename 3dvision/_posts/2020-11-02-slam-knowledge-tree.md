@@ -48,7 +48,7 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 		1. 2D-2D: Epipolar constraint, Linear algebra solution, 8-points
 			1. Essential Matrix
 			2. Homogeneous Matrix
-	2. Stereo and RGB-D
+	2. Stereo and RGB-D, or image with map
 		1. 2D-3D: PnP
 			1. Direct Linear Method
 			2. P3P
@@ -58,7 +58,7 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 				2. Calculate the Analytic Partial Derivative (Jacobian)
 				3. Use the above linear method output as the initial BA state. 
 				4. Optimize both Pose and Landmark
-		2. 3D-3D: ICP
+		2. 3D-3D point cloud: ICP
 			1. Linear method: SVD
 			2. Non-Linear: BA
 	3. Lidar
@@ -75,7 +75,7 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 ### Backend Optimization
 1. Backend can refine the front-end rough estimation. It works by define a parametric least square Loss function. And update the state variables to find argmin(state) of the global minimum of the Loss function. The main part of this optimization flow is to find the direction of the gradient to each state variable (Jacobian Matrix) at the current state. Then update the state along that Gradient Descent direction. 
 	1. Filter-based method: Extened Kalman Filter
-		1. Will have a dedicated Post for KF
+		1. Will post another blog for KF
 	2. Bundle Adjustment: Non-linear Optimization
 		1. First order Gradient Descent. 
 		2. Second order Gradient Descent (Newton method)
