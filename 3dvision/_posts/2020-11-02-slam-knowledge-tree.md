@@ -25,10 +25,10 @@ This post records knowledge structure for the 3D Computer Vision. This post will
 A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 ![ORB-SLAM](/assets/img/blog/orbslam.png)
 
-### Comparison with SfM
+### SLAM Comparison with SfM
 1. SLAM require to be real-time while SfM can be offline.
 2. SfM also doesn’t require the image data to be in time sequence, while in SLAM data always arrive in sequence.
-3. SfM can apply RANSAC across the whole image data set to perform triangulation, while SLAM can only use the data of current frame and previous built map.
+3. SfM can apply RANSAC across the whole image data set to perform triangulation, while SLAM can match the features between current frame and previous reference frame or built map.
 4. SfM is batch operation while SLAM is incremental. 
 5. SfM can perform non-linear optimization across the whole Bundle Adjustment graph, while SLAM usually only update the partial graph.
 6. SfM require accurate mesh reconstruction and texture mapping, while SLAM map can be point cloud or other simplified format.
@@ -38,36 +38,40 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 2. Feature Detection:
 	1. ORB
 		1. FAST + BRIEF
-	2. Subpixel
+	2. Subpixel refinement
 	3. Feature refinement, when paired features are not on the same Epiplane: 
 		1. Minimize Sampson Distance
 		2. Mid-point Triangulation
 		
 3. The solution of recovering the [R, t] is various based on the type of the camera sensor:
-	1. Monocular initialization
-		1. 2D-2D: Epipolar constraint, Linear algebra solution, 8-points
+	1. Monocular initialization (Need camera pose has translation)
+		1. 2D-2D: Epipolar constraint, Linear algebra solution, 8-points algorithm
 			1. Essential Matrix
 			2. Homogeneous Matrix
 	2. Stereo and RGB-D, or image with map
 		1. 2D-3D: PnP
-			1. Direct Linear Method
-			2. P3P
-			3. EPnP
-			4. Non-Linear: Bundle Adjustment, minimize reproduction error. 
-				1. Construct the least square loss function. 
-				2. Calculate the Analytic Partial Derivative (Jacobian)
+			1. Direct Linear Method with SVD, n = 6
+			2. P3P, Linear method, n = 3
+			3. EPnP, linear Method, n = 4
+			4. Non-Linear: Bundle Adjustment, minimize reproduction error.
+				1. Construct the least square reprojection error function. 
+				2. Calculate the Analytic Partial Derivative for both pose and landmark (Jacobian)
 				3. Use the above linear method output as the initial BA state. 
-				4. Optimize both Pose and Landmark
+				4. Optimize both Pose and Landmark using the non-linear optimization algorithm like LM
+        5. Each edge will update the vertices connect to it for certain amount of epoch until converge.
 		2. 3D-3D point cloud: ICP
 			1. Linear method: SVD
 			2. Non-Linear: BA
 	3. Lidar
 		1. Nearest Neighbor
+4. Keyframe
+	1. When initialization, the # of detected feature points need to larger than a threshold to be consider as initialization success
+	2. During SLAM, the definition of a keyframe is: the delta of pose [R, t] with the last keyframe is larger than a threshold
 
 ### Optical Flow Visual Odometry
 1. Optical Flow can avoid feature detection and feature matching. 
-	1. Linear Solution: LK Optical Flow
-	2. Non-linear Solution: Direct Method, which also is BA
+	1. Linear Solution: LK Optical Flow, still need to detect feature at first frame
+	2. Non-linear Solution: Direct Method, which also is BA. Sparse, Semi-dense, Dense
 
 ### Sensor Fusion
 1. Use other sensor’s data to constraint the camera motion. E.g. use IMU data for the state update, so that we can better predict the camera pose in the map for PnP
@@ -95,5 +99,4 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 1. Left/right Perturbation 
 2. Taylor Series
 3. Regulation term in loss function: convert the constraint based problem to no constraint problem. 
-4. Schur Complement. 
-5. Marginalization
+4. Marginalization: Schur Complement. 

@@ -89,6 +89,7 @@ This post is about the fundamental knowledge and concepts in the 3D Computer Vis
 4. Extrinsic, is the camera pose relative to the world or the previous pose.
 5. Radial Distortion coefficient
 6. Rendering Function from the Image Sensor perspective: P69
+7. Coordinate transfer flow: P_world -> P_rig(If is stereo camera) -> P_camera(times extrinsic) -> P_camera_normalized(normalize depth) -> P_uv(times intrinsic)  
 
 ### Image Correspondence
 1. Optical Flow: Brightness Constancy Constraint (4.14). A strong assumption that assume the camera or the pixel on the image is moving very slow. So the delta of a pixel’s greyscale is equal to the image gradient at last frame along X and Y axis, times the delta t. Moreover, we can select a m*m window in the image and apply this constraint to each pixel. Then we can form an over-determined linear equation. Solve that can yield the speed of the pixel change. Formula (4.20) is the linear equation for the pixel speed. 

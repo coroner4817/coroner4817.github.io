@@ -134,3 +134,41 @@ public:
 if constexpr (is_reflectable<T>::value) {
 }
 ```
+
+### Stack template
+```c++
+template <typename T>
+class Foo{
+template <typename U, std::enable_if_t<std::is_same<T, U>::value, int> = 0>
+void copy(U&& data);
+T data_;
+};
+
+// up to 2 stacked templates
+template <typename T>
+template <typename U, std::enable_if_t<std::is_same<T, U>::value, int>>
+void Foo<T>::copy(U&& data) {
+  data_ = std::forward<U>(data);
+}
+```
+
+### Access other class' private member type
+```c++
+// Explicit instantiation definitions ignore member access specifiers: parameter types and return types may be private
+class Bar{
+private:
+  std::string data_;
+};
+class Foo{
+public:
+  template<typename T, typename M = decltype(T::data_)>
+  void print(T t, M data) {
+    std::cout << data << std::endl;
+  }
+};
+int main() {
+  Foo foo;
+  Bar bar;
+  foo.print(bar, "123");
+}
+```
