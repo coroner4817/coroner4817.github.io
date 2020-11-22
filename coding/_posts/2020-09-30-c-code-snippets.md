@@ -154,6 +154,7 @@ void Foo<T>::copy(U&& data) {
 
 ### Access other class' private member type
 ```c++
+// Only working with Apple Clang...
 // Explicit instantiation definitions ignore member access specifiers: parameter types and return types may be private
 class Bar{
 private:
@@ -170,5 +171,34 @@ int main() {
   Foo foo;
   Bar bar;
   foo.print(bar, "123");
+}
+```
+
+### Obtain the method returned type
+```c++
+#define VALUE_TYPE typename std::result_of<decltype(&ClassName::get)(Classname)>::type
+```
+
+### Static factory register and Runtime factory register
+```c++
+// static
+class A{
+  static void Register() {
+    Factory::Register(A::Creator);
+  };
+  static A* Create();
+};
+
+// runtime / user defined
+class A_Register {
+A_Register(CreatorList& c) {
+  c.push_back(...);
+}
+};
+class Factory {
+  std::shared_ptr<A_Register> Aregister_ = std::make_shared<A_Register>(c_);
+  friend class A_Register;
+private:
+  CreatorList c_;
 }
 ```
