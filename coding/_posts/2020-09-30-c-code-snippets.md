@@ -202,3 +202,22 @@ private:
   CreatorList c_;
 }
 ```
+
+### Compile time turn on/off API base on a compile time boolean
+```c++
+template <bool FLAG>
+class Foo {
+  // enable_if_t need to work in the type deduce scenario, so we need to use a buffer bool to avoid direct inference
+  template <bool U = FLAG, typename std::enable_if_t<U, int> = 0>
+  void api();
+
+  template <typename T, typename std::enable_if_t<!FLAG && std::is_same<T, bool>, int> = 0>
+  void api(T);
+}
+```
+
+### macro with template parameter
+```c++
+#define MACRO(...) __VA_ARGS__ a;
+MACRO(std::pair<int, bool>);
+```
