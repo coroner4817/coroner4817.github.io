@@ -332,11 +332,7 @@ Only the user currently has the permission of ‘w’ can exec the above command
 49. fuser: check the program that currently using the file
 50. isof: list the file that opened by a process
 51. ldd: list the shared lib that used by a program
-
----
-### Side note
-
-I haven’t updated my website for a while. I was stuck at some very silly personal issues and was kind of lost myself. Those issues add some really frustrating vibe to the end of 2020 and truly make it the worst year ever for me. Nevertheless, I am glad I have overcame them and have set some more reasonable expectation and goals to achieve in the new year.   
+  
 
 
 

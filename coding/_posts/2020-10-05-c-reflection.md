@@ -53,8 +53,21 @@ Before we heads to the reflection, let’s review the some basic of C++ Macros:
 CLASS(Bar)
 CLASS(Foo, public Bar)
 
+// Macro forwarding
+#define DATA_WRAP() DATA
+// if there is a space between ##, then will forward the macro content
+LANG ## _VEC2_ARR
+
+// stringify a marco content
+#define STRINGIFY_HELPER(x) #x
+#define STRINGIFY(x) STRINGIFY_HELPER(x)
+
+// escape special char in marco
+#define MACRO(hash, name) hash name hash
+
 // For more basic info you can visit at: 
 // [Macros (The C Preprocessor)](https://gcc.gnu.org/onlinedocs/cpp/Macros.html#Macros)
+// [C++ Standard](https://eel.is/c++draft/cpp.rescan)
 ```
 
 
