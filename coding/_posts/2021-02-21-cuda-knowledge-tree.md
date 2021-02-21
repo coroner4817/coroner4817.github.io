@@ -128,16 +128,16 @@ CUDA knowledge tree. Took notes from official documents.
 - CUDA provide abstraction of: a hierarchy of thread groups, shared memories, and barrier synchronization
 - Basics:
   - Function specifiers:
-    - __global__: running on device, called on host, so that we pass host custom struct to the kernel
-    - __device__: running on device called on device
-    - __host__: runnint on host, can be omitted. Or can be used together with __device__, which means code will compiled and run for both host and device
-    - __noinline__, __forceinline__
+    - \_\_global\_\_: running on device, called on host, so that we pass host custom struct to the kernel
+    - \_\_device\_\_: running on device called on device
+    - \_\_host\_\_: runnint on host, can be omitted. Or can be used together with \_\_device\_\_, which means code will compiled and run for both host and device
+    - \_\_noinline\_\_, \_\_forceinline\_\_
   - Variable specifiers:
-    - __device__: device variable
-    - __shared__: shared memory of block
-    - __constant__: global constant device variable
-    - __managed__: map memory between host and device, so both can directly access it
-    - __restrict__: avoid pointer aliasing
+    - \_\_device\_\_: device variable
+    - \_\_shared\_\_: shared memory of block
+    - \_\_constant\_\_: global constant device variable
+    - \_\_managed\_\_: map memory between host and device, so both can directly access it
+    - \_\_restrict\_\_: avoid pointer aliasing
   - kernel <<< GridSize, BlockSize, SharedMem, Stream >>> (args...)
     - GridSize: how many block in a grid
     - BlockSize: how many thread in a block
@@ -154,11 +154,11 @@ CUDA knowledge tree. Took notes from official documents.
           (gridDim.x * gridDim.y * blockIdx.z + gridDim.x * blockIdx.y + blockIdx.x) +
           blockDim.x * blockDim.y * threadIdx.z + blockDim.x * threadIdx.y + threadIdx.x;
   - shared memory:
-    - static shared memory: __shared__ int s[64]; Fix sized at compile time
+    - static shared memory: \_\_shared\_\_ int s[64]; Fix sized at compile time
     - Dynamic shared memory: Size determined at runtime
-      - config memory size using the third parameter of the kernel launch and declare variable like: extern __shared__ int s[];
+      - config memory size using the third parameter of the kernel launch and declare variable like: extern \_\_shared\_\_ int s[];
   - Barrier Sync:
-    - block sync: __syncthreads()
+    - block sync: \_\_syncthreads()
     - device sync: cudaDeviceSync()
   - Memory Model:
     - Registers: stack variables are placed in registers
@@ -178,7 +178,7 @@ CUDA knowledge tree. Took notes from official documents.
   - cuobjdump show the content of cubin
   - PTX code is much flexible, since it is an abstraction. we can cross compile a PTX of difference compute compatibility and then compile it to any other higher compatibility arch
   - If not compiled to cubin, then application need to load the PTX and JIT compile. For running on future arch, we must generate PTX code using flag like: -gencode=arch=compute_75,code=compute_75. In the future it can be JIT compile to 8.6 cubin during load time on 8.6 arch
-  - CUDA C macro to determine arch: __CUDA_ARCH__
+  - CUDA C macro to determine arch: \_\_CUDA_ARCH\_\_
   - flag can be shorted to: -arch=compute_70
 - CUDA Runtime Init
   - Runtime context is initialized on the first CUDA kernel call. cudaDeviceReset() destroy the context
@@ -319,7 +319,7 @@ CUDA knowledge tree. Took notes from official documents.
         - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#compute-capability-5-x
         - Padding data if necessary, e.g. padding the 2D array
         - Alignment struct:
-          struct __align__(8) {
+          struct \_\_align\_\_(8) {
               float x;
               float y;
           };
@@ -338,7 +338,7 @@ CUDA knowledge tree. Took notes from official documents.
         - Shared memory is divided into equally-sized memory called bank, which can be access simultaneously. memory r/w in to different banks can be concurrently.
         - Bank Conflict: if two addresses of a memory request fall in the same memory bank, there is a bank conflict and the access has to be serialized
           - However, if 2 threads request the same address within a bank, there is no back conflict.
-          - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#shared-memory-5-x__examples-of-strided-shared-memory-accesses
+          - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#shared-memory-5-x\_\_examples-of-strided-shared-memory-accesses
         - cudaDeviceSetSharedMemConfig(): we can config bank size to avoid conflict
       - Constant Memory
         - On device memory with constant cache
@@ -352,7 +352,7 @@ CUDA knowledge tree. Took notes from official documents.
       - reduce instructions, especially sync operations
       - use built in functions in: math_functions.h, device_functions.h
       - Some nvcc compiler flags: -ftz=true, prec div=false, -prec-sqrt=false
-      - Intrinsic functions: __fdividef(), rsqrtf()
+      - Intrinsic functions: \_\_fdividef(), rsqrtf()
       - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#mathematical-functions
       - Single precision and half precision instructions
       - Use bit operations: & | >> << when possible
@@ -361,7 +361,7 @@ CUDA knowledge tree. Took notes from official documents.
       - controlling condition should be written so as to minimize the number of divergent warps
       - If all thread under a warp will behave the same on a branching condition, then there is no code diverge
       - #pragma unroll: above a loop in kernel can force unrolling
-      - __syncthreads() can also impact performance
+      - \_\_syncthreads() can also impact performance
     - Warmup kernel
       - instanciate a dummy kernel launch before the actual executing. This is because the first kernel launch always invlove context setup. This is critical for benchmarking
       - Warmup should comes with a cudaDeviceSynchronize()
@@ -373,12 +373,12 @@ CUDA knowledge tree. Took notes from official documents.
   - Variables
     - gridDim, blockIdx, blockDim, threadIdx, warpSize=32
   - Memory Fence functions
-    - __threadfence(), __threadfence_block(), __threadfence_system(): make sure the write operand before this call have occured. Important for weakly-ordered memory model. This more for global variable write and read
+    - \_\_threadfence(), \_\_threadfence_block(), \_\_threadfence_system(): make sure the write operand before this call have occured. Important for weakly-ordered memory model. This more for global variable write and read
     - Alternatively, we can use atomic functions to avoid data racing
-    - Compare with __syncthreads(): __threadfence() only affect the memory operations. It is not sync point for all threads to wait
+    - Compare with \_\_syncthreads(): \_\_threadfence() only affect the memory operations. It is not sync point for all threads to wait
   - Sync functions
-    - __syncthreads(), __syncthreas_count(), __syncwarp()...
-    - somtimes __syncwarp() is enough instead of __syncthreads, This is base on how we launch the kernel
+    - \_\_syncthreads(), \_\_syncthreas_count(), \_\_syncwarp()...
+    - somtimes \_\_syncwarp() is enough instead of \_\_syncthreads, This is base on how we launch the kernel
   - Matchematical Functions
     - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#mathematical-functions-appendix
   - Texture functions (Sample:simpleTexture)
@@ -388,11 +388,11 @@ CUDA knowledge tree. Took notes from official documents.
   - Surface Functions
     - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#surface-functions
   - Global Memory access functions
-    - Read-only cache load: __ldg()
-    - Load and store global memory: __ldcg()..., __stwb()...
+    - Read-only cache load: \_\_ldg()
+    - Load and store global memory: \_\_ldcg()..., \_\_stwb()...
   - Time functions
     - clock(), clock64()
-    - __nanosleep()
+    - \_\_nanosleep()
   - Atomic Functions: read-modify-write atomic operation in kernel
     - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#atomic-functions
     - Type of Atomic
@@ -405,16 +405,16 @@ CUDA knowledge tree. Took notes from official documents.
   - Address space predicate functions
     - Determine where is memory stored at
   - Compiler Optimization Hint Functions
-    - __builtin_assume_aligned(): hint compiler that the data's alignment
-    - __builtin_assume(): add some condition hint to compiler
-    - __builtin_expect(): hint compiler for branching
+    - \_\_builtin_assume_aligned(): hint compiler that the data's alignment
+    - \_\_builtin_assume(): add some condition hint to compiler
+    - \_\_builtin_expect(): hint compiler for branching
   - Warp broadcasting
-    - __shfl_sync
+    - \_\_shfl_sync
     - https://developer.nvidia.com/blog/using-cuda-warp-level-primitives/
   - Alternative Floating Point
-    - __nv_bfloat16, tf32
+    - \_\_nv_bfloat16, tf32
   - Assert: assert
-  - Trap: __trap(), abort the kernel
+  - Trap: \_\_trap(), abort the kernel
   - malloc: we can malloc per thread memory in kernel
 - Cooperative Groups (Sample:simpleCooperativeGroups)
   - Give developer more contorl of the kernel granularity
@@ -470,7 +470,7 @@ Misc:
 
 - Testing
   - Verfication: write unit test with reference data to avoid numerical accuracy issue
-  - We can use specify a device functions as __host__ __device__, so that we can unit test it on CPU
+  - We can use specify a device functions as \_\_host\_\_ \_\_device\_\_, so that we can unit test it on CPU
 
 - Debugging
   - CUDA-GDB 
@@ -494,7 +494,7 @@ Misc:
     - Overlapping Computing: We can have multiple streams and they can parallel both CPU memcpyToDevice and GPU kernel launch tasks
     - Zero-copy: Via memory mapping, we can avoid memcpy, but also means memory cannot be cached at the GPU side
     - Unified Virtual Addressing: a new way of zero-copying
-    - Different Memory Attributes: https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#device-memory-spaces__salient-features-device-memory
+    - Different Memory Attributes: https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#device-memory-spaces\_\_salient-features-device-memory
     - Coalecse Global Memory access pattern
       - GPU will coalecse adjacent memory access
       - GPU will padding access non-aligned memory 
@@ -519,7 +519,7 @@ Misc:
     - Threads per block should be a multiple of warp size to avoid wasting computation on under-populated warps and to facilitate coalescing.
     - A minimum of 64 threads per block should be used, and only if there are multiple concurrent blocks per multiprocessor.
     - Between 128 and 256 threads per block is a good initial range for experimentation with different block sizes.
-    - Use several smaller thread blocks rather than one large thread block per multiprocessor if latency affects performance. This is particularly beneficial to kernels that frequently call __syncthreads().
+    - Use several smaller thread blocks rather than one large thread block per multiprocessor if latency affects performance. This is particularly beneficial to kernels that frequently call \_\_syncthreads().
 
   - Multiple GPU Context:
     - Context created when first kernel launch
@@ -578,7 +578,7 @@ Misc:
   - Each tile is a block
   - Template:
     - Each thread in the block copy data to shared memory
-    - __syncthreads()
+    - \_\_syncthreads()
     - Read data and operations
     - Force Coalesce
 - How to Coalesce threads' result:
