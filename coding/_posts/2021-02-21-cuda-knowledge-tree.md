@@ -15,7 +15,7 @@ CUDA knowledge tree. Took notes from official documents.
 {:toc .large-only}
 
 
-### CUDA Version and HW
+### CUDA Version and HW (Jetson nano)
 - Architecture: Maxwell (Jetson nano)
 - CUDA library version: nvcc --version, CUDA 10.2
 - CUDA Compute Capability: 5.3
@@ -34,8 +34,6 @@ CUDA knowledge tree. Took notes from official documents.
   - https://en.wikipedia.org/wiki/Tegra
   - https://elinux.org/Jetson
   - https://elinux.org/Jetson_Nano
-
-### Maxwell Compatibility
 - Maxwell Physical Limitation (Sample: deviceQuery)
   - CUDA Driver Version / Runtime Version          10.2 / 10.2
   - CUDA Capability Major/Minor version number:    5.3
@@ -60,16 +58,16 @@ CUDA knowledge tree. Took notes from official documents.
 - https://docs.nvidia.com/deploy/cuda-compatibility/index.html
 - https://docs.nvidia.com/cuda/maxwell-tuning-guide/index.html
 
-### PTX and Compiler
+### PTX, Compiler and Streaming Multiprocessor
 - cubin: CUDA program binary
 - PTX: Parallel Thread Execution, defines a GPU architecture independent virtual machine and ISA (PTX instruction set)
   - https://docs.nvidia.com/cuda/parallel-thread-execution/index.html
   - Handcraft PTX: https://docs.nvidia.com/cuda/ptx-writers-guide-to-interoperability/index.html
-  - ISA: Instruction Set Architecture, machine independent.
-  - PTX program are translated to target HW Instruction Set at install time
-  - C code -> IR -> PTX program(ISA) -> Code gen -> Target HW instruction set
+  - ISA: PTX Instruction Set Architecture, machine independent.
+  - PTX program are translated to target HW Instruction Set at install time or application load time
+  - CUDA code -> IR -> PTX program(ISA) -> Code gen -> Target HW instruction set
   - CTA: Cooperative Thread Array, array of parallel executed threads, aka block, max size 1024
-  - Warp: maximal subset of threads from a single CTA that can be executed on a streaming processor, such that threads executes the same instruction at the same time.
+  - Warp: maximal subset of threads from a single CTA that can be executed on a streaming processor, such that each thread executes the same instruction at the same time.
   - Warp size is always 32, no matter how many CUDA core SM contains
   - Threads within a warp also called lanes. Each theard is a lane
   - Memory Hierarchy:
@@ -78,8 +76,8 @@ CUDA knowledge tree. Took notes from official documents.
     - Global memory, constant
     - Other memory: texture, surface, notice that texture and surface memory are cache memory, which means the write before read in the same kernel call is not valid when read it
     - Host memory and device memory: copy through the Direct Memory Access engine
-    - On-chip SM shared memory: 32-bit register per Scalar Processor
-  - Streaming Processor SM
+    - On-chip SM shared memory: 32-bit register per Scalar Processor (aka streaming processor)
+  - Streaming Processor and SM
     - SM contains multiple Scalar Processor and shared memory within the SM. Also contain texture cache, etc
     - Zero overhead thread scheduling
     - Fast Barrier synchronization
@@ -88,11 +86,11 @@ CUDA knowledge tree. Took notes from official documents.
       - Each thread is mapped to 1 Scalar Processor and each thread executed with its own register state
       - SIMT unit schedule the thread and split consecutive threads within the CTA into warps
       - At each instruction issue time, SIMT unit select a warp
-      - A warp execute 1 common instruction of all threads at a time. But if there is code path branching, warp will hold other threads and wait for diverged threads finish. Eventually converge all threads. Different warp are execute independently
+      - A warp execute 1 common instruction of all threads at a time. But if there is code path branching, warp will hold other threads and wait for diverged threads finish. Eventually converge all threads. Different warp are executing independently
       - SIMD: Single Instruction, Multiple Data: a single instruction controls multiple processing elements.
       - SIMT vs SIMD: SIMD vector organizations expose the SIMD width to the software, whereas SIMT instructions specify the execution and branching behavior of a single thread
       - SIMD is dive into data element level parallelism, SIMT is kernel level parallelism
-  - Independent Thread Scheduling: starting from Volta arch, threads can sych even the code path is diverge. Threads can now diverge and reconverge at sub-warp granularity.
+  - Independent Thread Scheduling: starting from Volta arch, threads can sync even the code path is diverge. Threads can now diverge and reconverge at sub-warp granularity.
 - Compile command:
   - /usr/local/cuda/bin/nvcc
       -gencode=arch=compute_20,code=sm_20
@@ -102,16 +100,16 @@ CUDA knowledge tree. Took notes from official documents.
       -gencode=arch=compute_52,code=sm_52
       -gencode=arch=compute_52,code=compute_52
       -O2 -o mykernel.o -c mykernel.cu
-  - compute_XX refers to a PTX version and sm_XX refers to a cubin version
+  - compute_XX refers to a PTX-ISA version and sm_XX refers to a HW dependent cubin version
   - -gencode=arch=compute_35,code=sm_35 means: generate compute_35 PTX code, then compile to sm_35 arch binary. Notice that PTX code is not perserved
   - The above command compile binaries to compatibility up to 5.2
   - -gencode=arch=compute_52,code=compute_52: the last flag generate the PTX for future architecture to compile to future cubin, PTX code is perserved
-  - PTX is cross HW generation, cubin only for targetting HW
+  - PTX is cross HW generation, cubin only for targeting HW
   - nvcc -ptx will generate PTX assembly code
   - binary(PTX) compatibility is backward compatible
   - Start from CUDA 10, we have forward compatibility, which means we can use the old HW but upgrade the CUDA libraries and driver to 11, then we can run CUDA 11 program.
 - Tuning CUDA Application for Maxwell
-  - Maxwell Streaming Processor is called SMM
+  - Maxwell Streaming Processor is also called SMM
 
 
 ### CUDA Programming High-level Guide
