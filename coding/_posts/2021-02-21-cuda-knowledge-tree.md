@@ -15,7 +15,7 @@ CUDA knowledge tree. Took notes from official documents.
 {:toc .large-only}
 
 
-### CUDA Version and HW (Jetson nano)
+### CUDA Version and HW (Using Jetson nano as example)
 - Architecture: Maxwell (Jetson nano)
 - CUDA library version: nvcc --version, CUDA 10.2
 - CUDA Compute Capability: 5.3
@@ -364,7 +364,7 @@ CUDA knowledge tree. Took notes from official documents.
       - instanciate a dummy kernel launch before the actual executing. This is because the first kernel launch always invlove context setup. This is critical for benchmarking
       - Warmup should comes with a cudaDeviceSynchronize()
 
-### Other topics
+### Misc topics
 - Built-in features
   - Data Types
     - int2, float4, char1..., created with API like: make_int2
