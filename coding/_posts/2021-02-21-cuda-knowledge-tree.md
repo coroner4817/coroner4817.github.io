@@ -353,7 +353,7 @@ CUDA knowledge tree. Took notes from official documents.
       - Intrinsic functions: \_\_fdividef(), rsqrtf()
       - https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html#mathematical-functions
       - Single precision and half precision instructions
-      - Use bit operations: & | >> << when possible
+      - Use bit operations: & \| >> << when possible
     - Control Flow
       - Avoid branching, due to code path diverge and warp need to wait
       - controlling condition should be written so as to minimize the number of divergent warps
@@ -432,7 +432,7 @@ CUDA knowledge tree. Took notes from official documents.
   - we can do CUDA typed computation direct using low level driver API, instead of CUDA SDK
   - (sample:vectorAddDrv)
 
--Unified Memory Programming
+- Unified Memory Programming
   - By using memory mapping, both CPU and GPU can see the same memory address for a varible. So this hidden the memory copy cross host and device, or multi-GPU
 
 Misc:
@@ -441,7 +441,7 @@ Misc:
 
 ### CUDA Best Practices Guide
 - https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html
-- Search for "Note:[High|Medium|Low] Priority" in the article
+- Search for "Note:\[High\|Medium\|Low\] Priority" in the article
 - Summary: https://docs.nvidia.com/cuda/cuda-c-best-practices-guide/index.html#recommendations-and-best-practices-appendix
 - APOD: Assess, Parallelize, Optimize, Deploy
   - Assess: find the hotspot code path
