@@ -2,6 +2,7 @@
 layout: post
 title: CUDA Knowledge Tree
 date: 2021-02-21 06:07 -0500
+categories: [coding]
 description: >
   Knowledge tree of CUDA
 image:
@@ -141,7 +142,7 @@ CUDA knowledge tree. Took notes from official documents.
     - BlockSize: how many thread in a block
   - Templates with CUDA: https://developer.nvidia.com/blog/cplusplus-11-in-cuda-variadic-templates/
   - Max threads per block is 1024
-  - Two way of launching kernel in 1D shape: M = 2014
+  - Two way of launching kernel in 1D shape: M = 1024
     - <<< (N + M - 1) / M, M >>>
     - <<< (N / M + 1), M >>>
   - Usually launched threads is more than need, so need to use indexing to fence the kernel execution
@@ -590,7 +591,9 @@ Misc:
 - Programming guide CUDA (https://docs.nvidia.com/cuda/cuda-c-programming-guide/index.html)
 - CUDA samples (https://docs.nvidia.com/cuda/cuda-samples/index.html)
 - CUDA libraries and 3rd party lib: https://developer.nvidia.com/gpu-accelerated-libraries
+- https://developer.download.nvidia.com/assets/cuda/files/reduction.pdf
 - https://docs.nvidia.com/cuda/cuda-runtime-api/
 - https://docs.nvidia.com/cuda/cuda-compiler-driver-nvcc/index.html
 - https://docs.nvidia.com/deploy/cuda-compatibility/index.html
 - https://nvidia.github.io/libcudacxx/
+- https://zhuanlan.zhihu.com/p/341059988?utm_source=weibo&utm_medium=social&utm_content=snapshot&utm_oi=28266941382656

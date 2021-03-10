@@ -2,6 +2,7 @@
 layout: post
 title: A Complete Example for C++ Reflection  
 date: 2020-10-05 04:10 -0400
+categories: [coding]
 description: >
   Explaination of the C++ Reflection technique
 image:

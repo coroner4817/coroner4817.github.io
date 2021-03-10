@@ -2,6 +2,7 @@
 layout: post
 title: Linux Knowledge Tree
 date: 2021-02-07 00:45 -0500
+categories: [coding]
 description: >
   Knowledge tree of Linux
 image:
