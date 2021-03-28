@@ -228,15 +228,21 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 	4. MobileNet V2: decompose convolution to depth-wise convolution and 1x1 convolution
 	5. GeoNet: consider normal map and depth map together
 	6. Unsupervised Learning:
-		1. monodepth, monodepthv2
+		1. monodepth
 			1. Training on Stereo camera data, work on Monocular camera
-			2. Training an encoder-decoder NN, which aim to generate per-pixel disparity maps (a scalar value per pixel that the model will learn to predict) for both Left image and right image. And the input is ONLY the left image. The network should converge the disparity to the stereo camera baseline. But during this unsupervised training process, the NN learn about the real world scale, distance, object segmentation and other info from the dataset.
+			2. Training an encoder-decoder NN, which aim to generate per-pixel disparity maps (a scalar value per pixel that the model will learn to predict, proportional to depth) for both Left image and right image. And the input is ONLY the left image. The network should converge the disparity to the stereo camera baseline. But during this unsupervised training process, the NN learn about the real world scale, distance, object segmentation and other info from the dataset.
 			3. The goal of the whole pipeline is to generate right image by shifting the left image pixels, and generate left image by shift right image pixels. 
 			4. The shift is done via a pair of Differentiable Image Samplers (Spatial Transformer Network), which one takes left image and right disparity map to generated right image, and the other one takes right image and left disparity map to generated left image
-			5. The loss is calculated of the projection error base on output image and groundtruth image, so this is why need stereo camera data. Also add penalty of Left and right disparity map consistency and disparity map smoothness loss 
+			5. The loss is calculated of the photometric loss base on output image and groundtruth image, so this is why need stereo camera data. Also add penalty of Left and right disparity map consistency and disparity map smoothness loss 
 			6. Finally, we can use the disparity map of the left image to generate per-pixel depth map: depth = (baseline * focal length) / disparity. 
 			7. Unsupervised because it ignores the fact that we know the baseline between the camera, and use this as a constraint to training the end-to-end network. Notice that this is still a data-driven DL approach not a generalized CV approach, such that the NN is not learning to estimate camera pose but learning to assign depth to each pixel. The NN might potentially doing object recognition and segmentation etc under the hood ultimately. So still might be overfitting to the dataset.
-			8. Thoughts: When inferencing take 2 consecutive monocular frames as input, Maybe use 2D/3D/4D disparity map, NN also intermediate output depth  
+			8. Issue: if the object is moving at the same speed as the camera, then it will inference the depth as infinite. 
+			9. Thoughts: When inferencing take 2 consecutive monocular frames as input, Maybe use 2D/3D/4D disparity map, NN also intermediate output depth, Add semantic prior maybe can avoid the wrong inferencing of relative stationary objects and rectify depth on a single object
+		2. monodepthv2
+			1. Support training with different type of camera data input: mono, stereo, trino. Trino will take left, middle and right frames as training pair.
+			2. NN output both depth map and the pose
+			3. Use a shared-encoder NN to optimize both depth and pose estimation together. Then use a sampler to sythesis the middle frame image using middle frame depth prediction, middle frame pose and left & right frame images. Then evaulate the photometirc loss
+			4. Consider Multi-scale. Thoughts: Gaussian Pyramid, mipmap
 5. Rendering
 	1. NeRF
 6. 3D Data learning
