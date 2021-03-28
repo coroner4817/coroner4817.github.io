@@ -71,7 +71,7 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 	2. During SLAM, the definition of a keyframe is: the delta of pose [R, t] with the last keyframe is larger than a threshold
 
 ### Optical Flow Visual Odometry
-1. Optical Flow can avoid feature detection and feature matching. 
+1. Optical Flow can avoid feature detection and feature matching. Basic idea is to assume the camera transform across frame is really small. So that we can have the strong assumption: Grayscale invariant. So that each pixel can be considered as a feature point.  
 	1. Linear Solution: LK Optical Flow, still need to detect feature at first frame and does the feature tracking. Still rely on PnP etc to recover the pose
 	2. Non-linear Solution: Direct Method, which also is BA. Can optimize the pose and the landmark map. Map can be Sparse, Semi-dense, or Dense. This is also used for Dense Reconstruction. 
 
@@ -228,8 +228,15 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 	4. MobileNet V2: decompose convolution to depth-wise convolution and 1x1 convolution
 	5. GeoNet: consider normal map and depth map together
 	6. Unsupervised Learning:
-		1. Training base on stereo vision reprojection error
-		2. monodepth, monodepthv2
+		1. monodepth, monodepthv2
+      1. Training on Stereo camera data, work on Monocular camera
+      2. Training a encoder-decoder NN, which aim to generate per-pixel disparity maps (a scalar value per pixel that the model will learn to predict) for both Left image and right image. And the input is ONLY the left image. The network should converge the disparity to the stereo camera baseline. But during this unsupervised training process, the NN learn about the real world scale, distance, object segmentation and other info from the dataset.
+      3. The goal of the whole pipeline is to generate right image by shifting the left image pixels, and generate left image by shift right image pixels. 
+      4. The shift is done via a pair of Differentiable Image Samplers (Spatial Transformer Network), which one takes left image and right disparity map to generted right image, and the other one takes right image and left disparity map to generted left image
+      5. The loss is calculated of the projection error base on output image and groundtruth image, so this is why need stereo camera data. Also add penalty of Left and right disparity map consistency and disparity map smoothness loss 
+      6. Finally, we can use the disparity map of the left image to generate per-pixel depth map: depth = (baseline * focal length) / disparity. 
+      7. Unsupervised because it ignores the fact that we know the baseline between the camera, and use this as a constraint to training the end-to-end network. Notice that this is still a data-driven DL approach not a generalized CV approach, such that the NN is not learning to estimate camera pose but learning to assign depth to each pixel. The NN might potentially doing object recognition and segmentation etc under the hood ultimately. So still might be overfitting to the dataset.
+      8. Thoughts: When inferencing take 2 consecutive monocular frames as input, Maybe use 2D/3D/4D disparity map, NN also intermediate output depth  
 5. Rendering
 	1. NeRF
 6. 3D Data learning
@@ -307,7 +314,7 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
       
 ### Non-linear Optimization
 1.  Bundle Adjustment
-	1. Build pose graph base on constraints. Minimize the least square lose of the graph
+	1. Build pose graph base on constraints. Minimize the least square loss of the graph
 		1. Cost function: for different type of features, build the parametric cost function using pose and landmark
 			1. Point, Line, Plane feature
 		2. Calculate the Jacobian matrix: first order partial derivate
