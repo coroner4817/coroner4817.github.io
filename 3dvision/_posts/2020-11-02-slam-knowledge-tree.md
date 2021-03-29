@@ -276,7 +276,7 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 		1. Select feature points pair based on Parallax angle
 			1. Select if the angle between the 2 camera->feature rays is larger than a threshold
 		2. Feature points should be first convert from UV space to the normalized camera space
-			1. x_camNorm = {u - K[0][2]_K[0][0], v - K[1][2]_K[1][1]}
+			1. x_camNorm = {u - K[0][2] / K[0][0], v - K[1][2] / K[1][1]}
 		3. Then convert from normalized camera space to camera space
 			1. x_cam = x_camNorm * (depth of the 3D point)
 		4. Then we can use the camera pose of the 2 frame to triangulation. Notice that if the extrinsic matrix are already in the world space (not relative pose), we can skip step 2. Also we can even fuse the intrinsic here
