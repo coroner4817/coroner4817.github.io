@@ -214,7 +214,8 @@ Only the user currently has the permission of ‘w’ can exec the above command
 
 
 ---
-### Useful Command: check appendix of the Book!
+### Useful Command
+0. [Command List](http://cn.linux.vbird.org/linux_basic/1010index.php), [Command Cheatsheet](https://www.tecmint.com/linux-commands-cheat-sheet/)
 1. startx: start X window from tty1-6
 2. bc: calculator
 3. Set Locale: LANG=en_US.UTF-8
