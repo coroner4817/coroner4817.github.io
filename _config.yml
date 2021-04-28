@@ -70,17 +70,17 @@ author:
   # twitter:             <username>
 
 # Add links to the sidebar.
-menu:
-  - title:             Blog
-    url:               /blog/
-  - title:             Project
-    url:               /project/
-  - title:             Résumé
-    url:               /assets/pdf/YingnanWang_Resume.pdf
-  - title:             About
-    url:               /about/
-  - title:             Liu-Lian the Cat
-    url:               /cat/
+# menu:
+#   - title:             Blog
+#     url:               /blog/
+#   - title:             Project
+#     url:               /project/
+#   - title:             Résumé
+#     url:               /assets/pdf/YingnanWang_Resume.pdf
+#   - title:             About
+#     url:               /about/
+#   - title:             Liu-Lian the Cat
+#     url:               /cat/
 
 # Add links to the footer.
 # Typically you'll want to link to your cookie- or privacy policy (if appliable), etc..
