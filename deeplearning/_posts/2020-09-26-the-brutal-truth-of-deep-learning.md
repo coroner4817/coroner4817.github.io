@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The brutal truth of Deep Learning
+title: The Dark Side of the Deep Learning
 date: 2020-09-26 04:02 -0400
 categories: [deeplearning]
 description: >
@@ -8,7 +8,6 @@ description: >
 image:
   path: "/assets/img/blog/the-dark-side-of-the-moon.jpg"
 related_posts: []
-published: false
 ---
 
 Changing from 0.1f to 1.f is always easier than changing from 0.f to 0.1f. So for the first blog, I decided to translate a small article I wrote before into English and add some new thoughts. It is about my personal understanding of Deep Learning and its ethical influences on human civilization. Hope this can give you some heuristic ideas.  
@@ -46,6 +45,6 @@ Once you start viewing AI like this, you will understand the statement made by *
 
 ### What should Deep Learning do and what should not
 
-Finally, I want to express what we should deal with this current Deep Learning technology. **I have to admit that it is a great data processor. It working very well on some practical subjects. We can definitely use it to do some non-critical tasks like super-resolution, photo-synthesis, language translation, etc.** The DLSS provided by Nvidia is a good example. I am imagining it is not trained with too much data to avoid overfitting. This type of task is very efficient when using DL. Other generative learning processes like GAN and Autoencoder also cannot really hurt us, but add more fun in the entertainment aspects of our life. However, **AI shouldn't play major roles in tasks like classification, medical, stock market, or self-driving. These areas require a strong decision-maker. AI just doesn’t have the ability to do so.**
+Finally, I want to express what we should deal with this current Deep Learning technology. **I have to admit that it is a great data processor. It working very well on some practical subjects. We can definitely use it to do some non-critical entertainment tasks like super-resolution, photo-synthesis, language translation, etc.** The DLSS provided by Nvidia is a good example. I am imagining it is not trained with too much data to avoid overfitting. This type of task is very efficient when using DL. And it is OK for it to give error. Other generative learning processes like GAN and Autoencoder also cannot really hurt us, but add more fun in the entertainment aspects of our life. Therefore, **AI shouldn't play major roles in tasks like classification, medical, stock market, or self-driving. These areas require a strong decision-maker. AI just doesn’t have the ability to do so.**
 
 If you find yourself reading this article in the 25th century and human being still speaks English, not some funky machine language, please leave a comment below to point out if I was wrong or correct. 
