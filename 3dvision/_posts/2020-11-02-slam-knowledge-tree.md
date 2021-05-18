@@ -235,7 +235,7 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 			4. The shift is done via a pair of Differentiable Image Samplers (Spatial Transformer Network), which one takes left image and right disparity map to generated right image, and the other one takes right image and left disparity map to generated left image
 			5. The loss is calculated of the photometric loss base on output image and groundtruth image, so this is why need stereo camera data. Also add penalty of Left and right disparity map consistency and disparity map smoothness loss 
 			6. Finally, we can use the disparity map of the left image to generate per-pixel depth map: depth = (baseline * focal length) / disparity. 
-			7. Unsupervised because it ignores the fact that we know the baseline between the camera, and use this as a constraint to training the end-to-end network. Notice that this is still a data-driven DL approach not a generalized CV approach, such that the NN is not learning to estimate camera pose but learning to assign depth to each pixel. The NN might potentially doing object recognition and segmentation etc under the hood ultimately. So still might be overfitting to the dataset.
+			7. Unsupervised because it ignores the fact that we know the baseline between the camera, and use this as a constraint to training the end-to-end network. Notice that this is still a data-driven DL approach not a generalized CV approach, such that the NN is not learning to estimate camera pose but learning to assign depth to each pixel. The NN is doing optical flow base on pixel movement, and might potentially doing object recognition and segmentation etc under the hood ultimately. So still might be overfitting to the dataset.
 			8. Issue: if the object is moving at the same speed as the camera, then it will inference the depth as infinite. 
 			9. Thoughts: When inferencing take 2 consecutive monocular frames as input, Maybe use 2D/3D/4D disparity map, NN also intermediate output depth, Add semantic prior maybe can avoid the wrong inferencing of relative stationary objects and rectify depth on a single object
 		2. monodepthv2
@@ -277,13 +277,13 @@ A overall SLAM system design can be see in this ORB-SLAM2 diagram:
 			1. Select if the angle between the 2 camera->feature rays is larger than a threshold
 		2. Feature points should be first convert from UV space to the normalized camera space
 			1. x_camNorm = {u - K[0][2] / K[0][0], v - K[1][2] / K[1][1]}
-		3. Then convert from normalized camera space to camera space
+		3. Then convert from normalized camera space to camera space (This is not needed for triangulation, because we don't know the depth)
 			1. x_cam = x_camNorm * (depth of the 3D point)
-		4. Then we can use the camera pose of the 2 frame to triangulation. Notice that if the extrinsic matrix are already in the world space (not relative pose), we can skip step 2. Also we can even fuse the intrinsic here
+		4. Then we can use the camera pose of the 2 frame to triangulation. Also we can even fuse the intrinsic here
 			1. cv::triangulatePoints
-				1. [x1_cam.cross(extrinsic1);
-         x2_cam.cross(extrinsic2) * X_world = 0
-				2. Use SVD to solve this linear equation
+				1. [x1_camNorm.cross(extrinsic1 * X_world);
+         x2_camNorm.cross(extrinsic2 * X_world)] = 0
+				2. Use SVD to solve this linear equation to get X_world
 			2. Midpoint triangulation
 				1. Inverse project the x_cam1 and x_cam2 to X_world1 and X_world2. Then use the mid-point of X_world1 and X_world2 as result.
 				2. Solve linear equation using Cramer’s rule

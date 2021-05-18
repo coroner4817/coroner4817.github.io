@@ -54,7 +54,8 @@ This post is about the fundamental knowledge and concepts in the 3D Computer Vis
 9. QR Decomposition: Any matrix can be decomposed to A = QR. Gram-Schmidt Process is a kind of QR Decomposition. Q is an orthogonal matrix and R is an upper triangular matrix. QR decomposition can be used for solving least square problem, no matter the A is under-determined or over-determined.  
 10. Eigen Decomposition: Eigen vectors are the direction of transform. Eigen vector and Eigen value can be used to decompose a matrix. And also can use for solving inverse, however not recommend to use Eigen Decomposition to solve linear equation.
 11. SVD
-	1. When matrix is square, then the Eigen value is the singular value. Also det(A) = singular_value[i++] * det(A).
+	1. The singular values of a M x N matrix A are the square roots of the eigenvalues of the square matrix A.t() * A. 
+	2. Also det(A) *= singular_value[i++].
 12. Solve a Linear equation Ax = b:
 	1. A is non-Singular det(A)!=0:
 		1. Calculate A.inv()
@@ -86,10 +87,10 @@ This post is about the fundamental knowledge and concepts in the 3D Computer Vis
 1. Image through lens. Fundamental equation: P48
 2. Image through pinholes. 
 3. Intrinsic, The difference between the Projection matrix in Graphics is: Intrinsic K is modeling base on the pinhole camera. K mapped the normalized Camera space position (divided by Z) to pixel coordinate. Projection in graphics map the camera space position to a 3 dimension clipped frustum. Then rescale the frustum to NDC space. 
-4. Extrinsic, is the camera pose relative to the world or the previous pose.
+4. Extrinsic, is the camera pose relative to the rig pose.
 5. Radial Distortion coefficient
 6. Rendering Function from the Image Sensor perspective: P69
-7. Coordinate transfer flow: P_world -> P_rig(If is stereo camera) -> P_camera(times extrinsic) -> P_camera_normalized(normalize depth) -> P_uv(times intrinsic)  
+7. Coordinate transfer flow: P_world -> (mul pose) -> P_rig(If is rig) -> (mul extrinsic) -> P_camera -> P_camera_normalized_depth -> (mul intrinsic) -> P_uv  
 
 ### Image Correspondence
 1. Optical Flow: Brightness Constancy Constraint (4.14). A strong assumption that assume the camera or the pixel on the image is moving very slow. So the delta of a pixel’s greyscale is equal to the image gradient at last frame along X and Y axis, times the delta t. Moreover, we can select a m*m window in the image and apply this constraint to each pixel. Then we can form an over-determined linear equation. Solve that can yield the speed of the pixel change. Formula (4.20) is the linear equation for the pixel speed. 
