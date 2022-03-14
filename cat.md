@@ -10,6 +10,12 @@ The cute cat on the website cover is **Liu-Lian (榴莲)**. He was born in Oklah
  
 Liu-Lian is very playful and super clingy. We think he has a dog personality. He loves to follow people from room to room and has never been shy when facing strangers or other cat. Besides robbing my dinner or jumping across kitchen counters, he is a quite good boy. His speciality is that he knows how to jump and push handle to open doors. There has been countless of nights that he sleeping by my side while I coding throughout the night.  
 
+Here is a link to all Liulian's photos: <a href="https://photos.app.goo.gl/wGYByH2dVh3UkPBQ9" target="_blank">Liulian Photo Album</a>
+
+<audio controls autoplay loop><source src="/assets/audio/audio.mp3" type="audio/mpeg">Your browser does not support the audio element.</audio>
+
+{% include open-embed.html %}
+
 ---
 <figure align="center">
   <img width="300" height="300" src="/assets/img/cat/cat4.jpg">
