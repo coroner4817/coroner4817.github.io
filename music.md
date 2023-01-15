@@ -5,13 +5,13 @@ hide_description: true
 ---
 
 ##### Steven Wilson - Refuge (Cover by Yingnan Wang)
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=ejEcGoXxBHY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/ejEcGoXxBHY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ##### Buck & Evans - Slow Train (Cover by Yingnan Wang)
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=t7UTO3VJRGY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/t7UTO3VJRGY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ##### Periphery - It's Only Smiles (Yingnan Wang Cover)
-<iframe width="560" height="315" src="https://www.youtube.com/watch?v=wiQjoOBE_Mg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/wiQjoOBE_Mg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 ##### Europe - Tower's Callin' (Cover by Yingnan Wang)
 <iframe width="560" height="315" src="https://www.youtube.com/embed/vlsRlJ7YMow" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
