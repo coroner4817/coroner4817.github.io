@@ -8,7 +8,7 @@ description: >
 image:
   path: "/assets/img/blog/the-dark-side-of-the-moon.jpg"
 related_posts: []
-published: false
+published: true
 ---
 
 Changing from 0.1f to 1.f is always easier than changing from 0.f to 0.1f. So for the first blog, I decided to translate a small article I wrote before into English and add some new thoughts. It is about my personal understanding of Deep Learning and its ethical influences on human civilization. Hope this can give you some heuristic ideas.  
